@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+body {
+    background: whitesmoke;
+}
+
+button {
+    margin: 20px;
+}
+
+.back_btn{
+  background-color: #77af9c;
+  color: #d7fff1;
+  border: none;
+
+  width: 100px;
+  height: 40px
+}
+
+.my_btn {
+  background-color: #77af9c;
+  color: #d7fff1;
+  border: none;
+}
+
+
+div {
+  font-size: 250%
+}
+
+.reference {
+  position: fixed; /* 이 부분을 고정 */
+  font-size: 100%;
+  bottom: 30px; /* 하단에 여백 없이 */
+  width: 100%; /* 가로 사이즈를 브라우저에 가득 채움 */
+}
+
+.listing {
+     width: 300px; /* 텍스트 표시 영역의 너비 조절 */
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+}

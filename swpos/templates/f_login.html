@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty Login</title>
+    <link  href="/static/css/stustyle.css" rel="stylesheet" type = "text/css" />
+</head>
+<body>
+<h1 style align="center">Faculty Login Page</h1>
+<div>Please click this button to go to the previous page
+        <button type="button" class = "back_btn" Onclick = "history.back()">Go Back</button>
+</div>
+<div align="center">
+<h2>Login Here</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_username">Instructor_ID:</label>
+        <input type="text" id="id_username" name="username" required><br>
+
+        <label for="id_password">Password:</label>
+        <input type="password" id="id_password" name="password" required><br>
+
+        <input type="submit" value="Login">
+    </form>
+</div>
+</body>
+</html>

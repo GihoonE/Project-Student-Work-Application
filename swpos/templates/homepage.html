@@ -1,0 +1,28 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content %}
+    {{ block.super}}
+{% endblock%}
+
+{% block body %}
+
+<h3 align = "center">CS310 Project</h3>
+<div style="text-align:center">
+    <link rel="stylesheet" href="static/css/style.css" align="center">
+    <img src = "static/images/DKU_Logo.png" />
+</div>
+
+<div align = "center">Student Worker Position</div>
+<div align = "center">
+<button type="button" class="my_btn"
+                    onClick = "location.href = 'student/'">Student Here!</button>
+<button type = "button" class ="my_btn"
+                    onClick = "location.href = 'f_login/'"> Faculty Here!</button>
+</div>
+<div class = "reference" align ="center">
+   image source: https://www.dukekunshan.edu.cn/
+</div>
+{% endblock %}
+
+</body>
+</html>

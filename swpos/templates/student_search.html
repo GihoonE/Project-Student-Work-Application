@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student_site</title>
+    <link  href="/static/css/stustyle.css" rel="stylesheet" type = "text/css" />
+</head>
+<body>
+<h1 style align="center">Student Page</h1>
+<div>Please click this button to go to the previous page
+        <button type="button" class = "back_btn" Onclick = "history.back()">Go Back</button>
+</div>
+
+<form>
+<label for = "Office"> Choose a Office</label>
+    <select id="Office" name="Office">
+        <option value = "None"> ALL </option>
+        {% for Office in Office_option %}
+            <option value="{{Office.0}}">{{Office.0}}</option>
+        {% endfor %}
+    </select>
+
+<label for = "Position">Choose a position type that you are looking for</label>
+    <select id="Position" name="Type">
+        <option value = "None"> ALL </option>
+        <option value = "Research">Research</option>
+        <option value = "Admin">Admin</option>
+    </select>
+
+<label>
+    <label for = "Status">Open/Close Filter</label>
+    <select id="Status" name="Status">
+        <option value = "None"> ALL </option>
+        <option value = "Open">Open</option>
+        <option value = "Close">Close</option>
+    </select>
+</label>
+<input type="submit">
+
+<!--listing results from db-->
+<style>
+    .listing p {
+        margin: 5px 0;
+    }
+    .info {
+        display: block;
+        width: 400px; /* 필요한 크기로 조절 */
+        height:150px; /* 필요한 크기로 조절 */
+        line-height: 1.5;
+        border: 1px solid #ccc; /* 요소 경계 확인을 위한 테두리 설정 */
+        padding: 10px;
+    }
+</style>
+
+<h1>Available Lists</h1>
+    <ul>
+        {% for position in Position_list %}
+            <li>
+                <h2>Position: {{ position.0 }}</h2>
+                <div class = "info">
+                <p class="listing">Type: {{ position.1 }}<br>
+                                   Office: {{ position.2}}<br>
+                                   Deadline: {{position.3}}<br>
+                                   Status: {{position.5}}<br>
+                        <button onclick="openNewWindow('{{position.0}}','{{position.1}}','{{position.2}}','{{position.3}}','{{position.6}}','{{position.7}}','{{position.8}}','{{position.9}}','{{position.10}}','{{position.11}}')">Detailed Description</button>
+                </p>
+                </div>
+            </li>
+        {%empty%}
+            <li>There is no available position now</li>
+        {% endfor %}
+    </ul>
+
+    <script>
+    function openNewWindow(positionName, positionType, officeName, deadline, description, descriptionLink, requirements, hiring_number, working_hour, pay) {
+        event.preventDefault();
+        var newWindow = window.open('', '_blank', 'width=1000,height=500');
+        newWindow.document.write('<html><head><title>Detailed Job Description</title></head><body>');
+        newWindow.document.write('<h2>' + positionName + '</h2>');
+        newWindow.document.write('<h3>' + 'Position Type: ' + positionType + '</h3>');
+        newWindow.document.write('<h3>' + 'Office Name: ' + officeName + '</h3>');
+        newWindow.document.write('<h3>' + 'Application Deadline: ' + deadline + '</h3>');
+        newWindow.document.write('<h3>' + 'Hiring number: ' + hiring_number + '</h3>');
+        newWindow.document.write('<h3>' + 'Monthly working hour: ' + working_hour + ' & Hourly wage: ' + pay + '</h3>');
+        newWindow.document.write('<div>' + description + '</div>');
+        newWindow.document.write('<h5>' + 'Requirements to apply: ' + requirements + '</h5>');
+        newWindow.document.write('<div><a href="' + descriptionLink + '" target="_blank">For more detail click here</a></div>');
+        newWindow.document.write('</body></html>');
+    }
+    </script>
+</body>
+</html>
+
+
