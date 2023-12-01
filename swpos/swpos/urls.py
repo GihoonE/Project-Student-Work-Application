@@ -22,5 +22,9 @@ urlpatterns = [
     path("",include('base.urls')),
     path("student/",include('base.urls')),
     path("f_login/",include('base.urls')),
-    path("f_add_post/",include('base.urls'))
+    path("f_add_post/",include('base.urls')),
+    path("application/",include('base.urls')),
+    path("delete_position/<int:position_id>/",include('base.urls')),
+    path("applicants/",include('base.urls')),
+    path("interview/<int:applicant_id>/<int:position_id>/",include('base.urls'))
 ]

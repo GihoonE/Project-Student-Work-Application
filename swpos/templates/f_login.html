@@ -3,25 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Faculty Login</title>
-    <link  href="/static/css/stustyle.css" rel="stylesheet" type = "text/css" />
+    <link href="/static/css/stustyle.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<h1 style align="center">Faculty Login Page</h1>
-<div>Please click this button to go to the previous page
-        <button type="button" class = "back_btn" Onclick = "history.back()">Go Back</button>
-</div>
-<div align="center">
-<h2>Login Here</h2>
-    <form method="post">
-        {% csrf_token %}
-        <label for="id_username">Instructor_ID:</label>
-        <input type="text" id="id_username" name="username" required><br>
+    <div class="main-container">
+        <h1 class="main-title">Faculty Login Page</h1>
 
-        <label for="id_password">Password:</label>
-        <input type="password" id="id_password" name="password" required><br>
+        <div class="navigation">
+            <button type="button" class="my-btn" onclick="history.back()">Go Back</button>
+        </div>
 
-        <input type="submit" value="Login">
-    </form>
-</div>
+        <div class="login-container">
+            <h2>Login Here</h2>
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username">Instructor Email:</label>
+                    <input type="text" id="id_username" name="username" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Password:</label>
+                    <input type="password" id="id_password" name="password" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Login" class="login-btn">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .main-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .main-title {
+            color: #004d99;
+            margin-bottom: 20px;
+        }
+        .login-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .form-control {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            width: 100%;
+        }
+        .login-btn {
+            background-color: #004d99;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .login-btn:hover {
+            background-color: #003366;
+        }
+        .my-btn {
+            background-color: #004d99;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .my-btn:hover {
+            background-color: #003366;
+        }
+    </style>
 </body>
 </html>

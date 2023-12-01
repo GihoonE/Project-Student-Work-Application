@@ -2,18 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add New Position</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        input[type="submit"] {
+            background-color: #004d99;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        input[type="submit"]:hover {
+            background-color: #003366;
+        }
+    </style>
 </head>
 <body>
-<h3>Position Title </h3>
-<h4>Position Type (Research/Admin) </h4>
-<h4>Office where you are from </h4>
-<h4>Deadline </h4>
-<h4>Hiring number </h4>
-<h4>Monthly working hour </h4>
-<h4>Hourly wage </h4>
-<div>Description about the position </div>
-<h4>Requirements to apply (Resume, CV, statement of interest) </h4>
+    <form method="post">
+        {% csrf_token %}
+        <label for="position_title">Position Title:</label>
+        <input type="text" id="position_title" name="position_title">
 
+        <label for="position_type">Position Type (Research/Admin):</label>
+        <input type="text" id="position_type" name="position_type">
+
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" name="deadline">
+
+        <label for="hiring_number">Hiring Number:</label>
+        <input type="number" id="hiring_number" name="hiring_number">
+
+        <label for="monthly_working_hours">Monthly Working Hours:</label>
+        <input type="number" id="monthly_working_hours" name="monthly_working_hours">
+
+        <label for="hourly_wage">Hourly Wage:</label>
+        <input type="text" id="hourly_wage" name="hourly_wage">
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <label for="requirements">Requirements:</label>
+        <input type="text" id="requirements" name="requirements">
+
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

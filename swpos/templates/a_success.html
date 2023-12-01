@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Success!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            color: #28a745; /* Success color */
+            margin-bottom: 20px;
+        }
+        p {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        a {
+            display: inline-block;
+            background-color: #004d99;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+<body>
+    <h1>Success!</h1>
+    <p>{{ message }}</p>
+    <!-- Link to the faculty page -->
+    <button type="button" class="my-btn" onclick="history.go(-2)">Back to homepage</button> <!--fix that-->
+{% block styles %}
+    <style>
+   .my-btn {
+            background-color: #004d99;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+   </style>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Interview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #004d99;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="datetime-local"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background-color: #28a745; /* Green */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Schedule Interview</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="applicant_id" value="{{ applicant_id }}">
+            <input type="hidden" name="position_id" value="{{ position_id }}">
+
+            <label for="interview_date">Interview Date:</label>
+            <input type="datetime-local" id="interview_date" name="interview_date" required><br>
+
+            <label for="interview_notes">Interview Notes:</label>
+            <textarea id="interview_notes" name="interview_notes" rows="4"></textarea><br>
+
+            <input type="submit" value="Schedule" class="submit-btn">
+        </form>
+    </div>
+</body>
+</html>

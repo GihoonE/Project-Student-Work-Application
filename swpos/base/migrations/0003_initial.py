@@ -319,7 +319,6 @@ class Migration(migrations.Migration):
                     "s",
                     models.OneToOneField(
                         db_column="s_ID",
-                        db_comment="s_id",
                         on_delete=django.db.models.deletion.DO_NOTHING,
                         primary_key=True,
                         serialize=False,

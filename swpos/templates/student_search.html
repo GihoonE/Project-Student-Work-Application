@@ -1,95 +1,160 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Student_site</title>
-    <link  href="/static/css/stustyle.css" rel="stylesheet" type = "text/css" />
-</head>
-<body>
-<h1 style align="center">Student Page</h1>
-<div>Please click this button to go to the previous page
-        <button type="button" class = "back_btn" Onclick = "history.back()">Go Back</button>
-</div>
 
-<form>
-<label for = "Office"> Choose a Office</label>
-    <select id="Office" name="Office">
-        <option value = "None"> ALL </option>
-        {% for Office in Office_option %}
-            <option value="{{Office.0}}">{{Office.0}}</option>
-        {% endfor %}
-    </select>
+{% block content %}
+    {{ block.super }}
+{% endblock %}
 
-<label for = "Position">Choose a position type that you are looking for</label>
-    <select id="Position" name="Type">
-        <option value = "None"> ALL </option>
-        <option value = "Research">Research</option>
-        <option value = "Admin">Admin</option>
-    </select>
+{% block body %}
+    <div class="main-container">
+        <h1 class="main-title">Student Page</h1>
 
-<label>
-    <label for = "Status">Open/Close Filter</label>
-    <select id="Status" name="Status">
-        <option value = "None"> ALL </option>
-        <option value = "Open">Open</option>
-        <option value = "Close">Close</option>
-    </select>
-</label>
-<input type="submit">
+        <div class="navigation">
+            <button type="button" class="my-btn" onclick="history.back()">Go Back</button>
+        </div>
 
-<!--listing results from db-->
-<style>
-    .listing p {
-        margin: 5px 0;
-    }
-    .info {
-        display: block;
-        width: 400px; /* 필요한 크기로 조절 */
-        height:150px; /* 필요한 크기로 조절 */
-        line-height: 1.5;
-        border: 1px solid #ccc; /* 요소 경계 확인을 위한 테두리 설정 */
-        padding: 10px;
-    }
-</style>
+        <form method="get" class="filter-form">
+            <div class="form-group">
+                <label for="Office">Choose an Office:</label>
+                <select id="Office" name="Office" class="form-control">
+                    <option value="None">ALL</option>
+                    {% for Office in Office_option %}
+                        <option value="{{ Office.0 }}">{{ Office.0 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-<h1>Available Lists</h1>
-    <ul>
+            <div class="form-group">
+                <label for="Position">Choose a Position Type:</label>
+                <select id="Position" name="Type" class="form-control">
+                    <option value="None">ALL</option>
+                    <option value="Research">Research</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Status">Open/Close Filter:</label>
+                <select id="Status" name="Status" class="form-control">
+                    <option value="None">ALL</option>
+                    <option value="Open">Open</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+
+            <input type="submit" value="Apply Filters" class="my-btn">
+        </form>
+
+        <h2>Available Positions</h2>
+
         {% for position in Position_list %}
-            <li>
-                <h2>Position: {{ position.0 }}</h2>
-                <div class = "info">
-                <p class="listing">Type: {{ position.1 }}<br>
-                                   Office: {{ position.2}}<br>
-                                   Deadline: {{position.3}}<br>
-                                   Status: {{position.5}}<br>
-                        <button onclick="openNewWindow('{{position.0}}','{{position.1}}','{{position.2}}','{{position.3}}','{{position.6}}','{{position.7}}','{{position.8}}','{{position.9}}','{{position.10}}','{{position.11}}')">Detailed Description</button>
-                </p>
-                </div>
-            </li>
-        {%empty%}
-            <li>There is no available position now</li>
+
+        <li class="position-item">
+            <h3>Position: {{ position.0 }}</h3>
+            <div class="info">
+                <p>Type: {{ position.1 }}</p>
+                <p>Deadline: {{ position.2 }}</p>
+                <p>Date of Post: {{ position.3 }}</p>
+                <p>Status: {{ position.4 }}</p>
+                <button onclick="toggleDetails('details-{{ forloop.counter }}')" class="detail-btn">Detailed Description</button>
+                <button onclick="location.href='application/?position_id={{ position.13 }}'" class="application-btn">Apply</button>
+            </div>
+            <div id="details-{{ forloop.counter }}" class="position-details" style="display: none;">
+                <!-- Detailed information here -->
+                <p>Professor Name: {{ position.12 }}</p>
+                <p>Hiring number: {{ position.8 }}</p>
+                <p>Working hours: {{ position.9 }} </p>
+                <p>Hourly Wage: {{ position.10 }}</p>
+                <p>Department: {{ position.11 }}</p>
+                <p>Description Link: {{ position.6 }}</p>
+                <p>Requirements: {{ position.7 }}</p>
+            </div>
+        </li>
         {% endfor %}
-    </ul>
-
-    <script>
-    function openNewWindow(positionName, positionType, officeName, deadline, description, descriptionLink, requirements, hiring_number, working_hour, pay) {
-        event.preventDefault();
-        var newWindow = window.open('', '_blank', 'width=1000,height=500');
-        newWindow.document.write('<html><head><title>Detailed Job Description</title></head><body>');
-        newWindow.document.write('<h2>' + positionName + '</h2>');
-        newWindow.document.write('<h3>' + 'Position Type: ' + positionType + '</h3>');
-        newWindow.document.write('<h3>' + 'Office Name: ' + officeName + '</h3>');
-        newWindow.document.write('<h3>' + 'Application Deadline: ' + deadline + '</h3>');
-        newWindow.document.write('<h3>' + 'Hiring number: ' + hiring_number + '</h3>');
-        newWindow.document.write('<h3>' + 'Monthly working hour: ' + working_hour + ' & Hourly wage: ' + pay + '</h3>');
-        newWindow.document.write('<div>' + description + '</div>');
-        newWindow.document.write('<h5>' + 'Requirements to apply: ' + requirements + '</h5>');
-        newWindow.document.write('<div><a href="' + descriptionLink + '" target="_blank">For more detail click here</a></div>');
-        newWindow.document.write('</body></html>');
-    }
-    </script>
-</body>
-</html>
+        <script>
+        function toggleDetails(detailsId) {
+            var detailsDiv = document.getElementById(detailsId);
+            if (detailsDiv.style.display === "none") {
+                detailsDiv.style.display = "block";
+            } else {
+                detailsDiv.style.display = "none";
+            }
+        }
+        </script>
 
 
+{% endblock %}
+
+{% block styles %}
+
+    <style>
+        .position-details {
+        background-color: #e9ecef;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        display: none; /* Initially hidden */
+        overflow: hidden; /* For sliding effect */
+        transition: max-height 0.5s ease-out; /* Sliding effect */
+        }
+        .main-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .main-title {
+            color: #004d99;
+            margin-bottom: 20px;
+        }
+        .navigation {
+            margin-bottom: 20px;
+        }
+        .my-btn {
+            background-color: #004d99;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .my-btn:hover {
+            background-color: #003366;
+        }
+        .filter-form {
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        .position-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .position-item {
+            background: #f4f4f4;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .detail-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .detail-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}

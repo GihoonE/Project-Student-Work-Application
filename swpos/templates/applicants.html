@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% block content %}
+<div class="applicants-container">
+    <h1>Applicants for The Position</h1>
+    <button onclick="history.back()" class="back-btn">Go Back</button>
+    <table class="applicants-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Resume</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for applicant in applicants %}
+            <tr>
+                <td>{{ applicant.0 }}</td>
+                <td>{{ applicant.1 }}</td>
+                <td>{{ applicant.2 }}</td>
+                <td><a href="{{ applicant.3 }}" target="_blank">View Resume</a></td>
+                <td>{{ applicant.4 }}</td>
+                <td>
+                   <button onclick="location.href='{% url 'interview' applicant.0 position_id %}'" class="interview-btn">Interview</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No applicants found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .applicants-container {
+        padding: 20px;
+        text-align: center;
+    }
+    .back-btn, .interview-btn {
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+    .back-btn {
+        background-color: #6c757d;
+        color: white;
+    }
+    .back-btn:hover {
+        background-color: #5a6268;
+    }
+    .interview-btn {
+        background-color: #28a745;
+        color: white;
+    }
+    .interview-btn:hover {
+        background-color: #218838;
+    }
+    .applicants-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .applicants-table, .applicants-table th, .applicants-table td {
+        border: 1px solid #ddd;
+    }
+    .applicants-table th, .applicants-table td {
+        padding: 8px;
+        text-align: left;
+    }
+    .applicants-table th {
+        background-color: #004d99;
+        color: white;
+    }
+    .applicants-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .applicants-table tr:hover {
+        background-color: #ddd;
+    }
+    .applicants-table a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .applicants-table a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+</html>

@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         #'ENGINE': 'mysql.connector.django',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CS310_Project',
+        'NAME': 'COMPSCI_310',
         'USER': 'root',
-        'PASSWORD': 'kihun87522099@',
-        'HOST': '127.0.0.1',  # 또는 데이터베이스 호스트 주소
+        'PASSWORD': '2003300509Tem_',
+        'HOST': 'localhost',  # 또는 데이터베이스 호스트 주소
         'PORT': '3306',  # 기본 포트를 사용할 경우 비워두세요.
         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
     }

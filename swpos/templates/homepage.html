@@ -1,28 +1,75 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 {% load static %}
+
 {% block content %}
-    {{ block.super}}
-{% endblock%}
-
-{% block body %}
-
-<h3 align = "center">CS310 Project</h3>
-<div style="text-align:center">
-    <link rel="stylesheet" href="static/css/style.css" align="center">
-    <img src = "static/images/DKU_Logo.png" />
-</div>
-
-<div align = "center">Student Worker Position</div>
-<div align = "center">
-<button type="button" class="my_btn"
-                    onClick = "location.href = 'student/'">Student Here!</button>
-<button type = "button" class ="my_btn"
-                    onClick = "location.href = 'f_login/'"> Faculty Here!</button>
-</div>
-<div class = "reference" align ="center">
-   image source: https://www.dukekunshan.edu.cn/
-</div>
+    {{ block.super }}
 {% endblock %}
 
-</body>
-</html>
+{% block body %}
+    <div class="main-container">
+        <h2 class="main-title">CS310 Project</h2>
+
+        <div class="logo-container">
+            <img src="{% static 'images/DKU_Logo.png' %}" alt="DKU Logo" class="dku-logo">
+        </div>
+
+        <div class="btn-container">
+            <button type="button" class="my-btn" onClick="location.href='student/'">Student Here!</button>
+            <button type="button" class="my-btn" onClick="location.href='f_login/'">Faculty Here!</button>
+        </div>
+
+        <div class="reference">
+            image source: <a href="https://www.dukekunshan.edu.cn/" target="_blank">Duke Kunshan University</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .main-container {
+            text-align: center;
+            padding: 30px;
+        }
+        .main-title {
+            color: #004d99;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .logo-container {
+            margin-bottom: 30px;
+        }
+        .dku-logo {
+            max-width: 250px;
+            height: auto;
+        }
+        .btn-container {
+            margin-bottom: 30px;
+        }
+        .my-btn {
+            background-color: #004d99;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 0 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .my-btn:hover {
+            background-color: #003366;
+        }
+        .reference {
+            font-size: 14px;
+            color: #666;
+            margin-top: 30px;
+        }
+        .reference a {
+            color: #004d99;
+            text-decoration: none;
+        }
+        .reference a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
