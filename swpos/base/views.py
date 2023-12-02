@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from . import models as m
+from datetime import datetime
 import mysql.connector
-import logging
+import json
 
-db_conn = mysql.connector.connect(host='localhost', user='root', password = '2003300509Tem_',
+db_conn = mysql.connector.connect(host='localhost', user='root', password = 'kihun87522099@',
                               database='COMPSCI_310')
 cursor = db_conn.cursor()
 from django.contrib import messages
@@ -13,7 +13,34 @@ from django.http import HttpResponseRedirect
 
 def base_view(request):
 
-    return render(request, "homepage.html")
+    #Create a history chart of monthly job posting
+    Job_stats_2023 = Monthly_Position_Chart(2023)
+    Job_stats_2022 = Monthly_Position_Chart(2022)
+
+    Top5_dept, dept_record= Department_Top5_Chart()
+    top5_dept_json = json.dumps(Top5_dept)
+    dept_record_json = json.dumps(dept_record)
+
+    cursor.execute('select access_time from access_log where access_time = CURDATE()')
+    log = cursor.fetchall()
+    if len(log) == 0:
+        # for updating position status by executing trigger
+        cursor.execute('insert into access_log values (CURDATE())')
+        db_conn.commit()
+
+    cursor.execute("select count(*) from hiring_details where status_position = 'Open'")
+    available_pos = cursor.fetchone()[0]
+
+    cursor.execute("select count(*) from applicant_position")
+    applying_num = cursor.fetchone()[0]
+
+    return render(request, "homepage.html",{'Job_stats_2023':Job_stats_2023,
+                                                                 'Job_stats_2022':Job_stats_2022,
+                                                                 'Top5_dept':top5_dept_json,
+                                                                 'dept_record':dept_record_json,
+                                                                 'num_av':available_pos,
+                                                                 'num_app':applying_num
+                                                                  })
 
 def student_view(request):
     # Fetch all positions
@@ -44,7 +71,7 @@ def student_view(request):
     pos_type = request.GET.get('Type', 'None')
     open_box = request.GET.get('Status', 'None')
     # Print or log the values for debugging
-    print(f"Filter values - Office: {div}, Type: {pos_type}, Status: {open_box}")
+    # print(f"Filter values - Office: {div}, Type: {pos_type}, Status: {open_box}")
     # Build the query based on filters
     query = """
         SELECT DISTINCT p.position_name, p.position_type, 
@@ -52,7 +79,8 @@ def student_view(request):
                         hd.status_position, hd.description_detail, 
                         hd.description_link, hd.requirements, 
                         hd.hiring_number, hd.working_hours, 
-                        hd.hourly_wage, d.department_name, s.professor_name, p.position_id
+                        hd.hourly_wage, d.department_name,
+                        s.professor_name, p.position_id
         FROM position p
         JOIN hiring_details hd ON p.position_id = hd.position_id
         JOIN supervisor s ON p.supervisor_id = s.supervisor_id
@@ -75,20 +103,18 @@ def student_view(request):
         query += " WHERE " + " AND ".join(conditions)
 
     # Print the final query and parameters for debugging
-    print(f"Final SQL Query: {query}")
-    print(f"Parameters: {params}")
-
+    # print(f"Final SQL Query: {query}")
+    # print(f"Parameters: {params}")
     # Execute the query with the correct parameters
     cursor.execute(query, params)
     filtered_list = cursor.fetchall()
+    filter_num = len(filtered_list)
 
-    print(filtered_list)
 
     # Render the appropriate template
     template = "student_page.html" if all(
         param == 'None' for param in (div, pos_type, open_box)) else "student_search.html"
-    return render(request, template, {'Position_list': filtered_list, 'Office_option': unique_offices})
-
+    return render(request, template, {'Position_list': filtered_list, 'Office_option': unique_offices,'filter_num':filter_num})
 
 def faculty_login(request):
     if request.method == 'POST':
@@ -146,7 +172,7 @@ def faculty_add_poster(request):
 
         # Insert the new job posting into the database
         cursor.execute("""
-            INSERT INTO position (position_name, position_type, supervisor_id)  # Assuming supervisor_id is needed
+            INSERT INTO position (position_name, position_type, supervisor_id)
             VALUES (%s, %s, %s)
         """, [position_name, position_type, id])  # Replace supervisor_id with actual value
 
@@ -182,8 +208,8 @@ def application(request):
                 """, [name, email, resume_link])
         cursor.execute("SELECT LAST_INSERT_ID();")
         applicant_id = cursor.fetchone()[0]
-        print(applicant_id)
-        print(position_id)
+        # print(applicant_id)
+        # print(position_id)
 
         cursor.execute("""
                             INSERT INTO applicant_position (applicant_id, position_id, cover_letter_link, application_status)  # Assuming supervisor_id is needed
@@ -196,12 +222,21 @@ def application(request):
 
     return render(request, "application.html")
 
-
 def delete_position(request, position_id):
     if request.method == 'POST':
         with db_conn.cursor() as cursor:
             # Delete from hiring_details table
             cursor.execute("DELETE FROM hiring_details WHERE position_id = %s", [position_id])
+
+            # Delete from interview
+            cursor.execute("DELETE FROM interview WHERE position_id = %s", [position_id])
+            db_conn.commit()
+
+            #update delete from applicant table too
+            cursor.execute("select applicant_id from applicant_position where position_id = %s",[position_id])
+            removed_applicant = cursor.fetchall()
+            for item in removed_applicant:
+                cursor.execute("DELETE FROM applicant WHERE applicant_id = %s", [item[0]])
 
             # Delete from position table
             cursor.execute("DELETE FROM position WHERE position_id = %s", [position_id])
@@ -252,3 +287,26 @@ def interview(request, applicant_id, position_id):
 
     # Load initial form data or handle GET request
     return render(request, "interview.html", {'applicant_id': applicant_id, 'position_id': position_id})
+
+def Monthly_Position_Chart(year):
+    cursor.execute(f"select number_of_posting from monthly_posts_history where Yr = '{year}' order by M")
+    temp = cursor.fetchall()
+    list = []
+    for item in temp:
+        list.append(item[0])
+    while len(list) < 12:
+        list.insert(0,0)
+    return list
+
+def Department_Top5_Chart():
+    cursor.execute("""select department_name,number_of_posting
+                      from department_job_posts_history
+                      order by number_of_posting desc
+                      limit 5""")
+    temp = cursor.fetchall()
+    dept = []
+    record = []
+    for item in temp:
+        dept.append(item[0])
+        record.append(item[1])
+    return dept,record

@@ -21,7 +21,115 @@
         <div class="reference">
             image source: <a href="https://www.dukekunshan.edu.cn/" target="_blank">Duke Kunshan University</a>
         </div>
+        <h6 class = "main-title"> Attention students! There are currently {{num_av}} of student worker positions available!!<br>
+    Don't miss out on this opportunity!<br> Apply now and secure your spot among {{num_app}} applicants.</h6>
     </div>
+
+ <div class="chart-container">
+    <div class="left-chart">
+        <h3 class='main-title'>Monthly Job Postings</h3>
+        <head>
+            <title>Job Postings Status</title>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js library -->
+        </head>
+        <div class="halfchart">
+            <canvas id="jobPostingsChart" width="600" height="300"></canvas> <!-- Canvas for the chart -->
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const jobPostingsData2023 = JSON.parse('{{Job_stats_2023|safe }}');
+                    const jobPostingsData2022 = JSON.parse('{{Job_stats_2022|safe }}');
+                    // Define months for X-axis
+                    const months = [
+                        'January', 'February', 'March', 'April',
+                        'May', 'June', 'July', 'August',
+                        'September', 'October', 'November', 'December'
+                    ];
+
+                    // Get the canvas element
+                    const ctx = document.getElementById('jobPostingsChart').getContext('2d');
+
+                    // Create the chart
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: months, // X-axis labels (assuming it's the same for both datasets)
+                            datasets: [
+                                {
+                                    label: 'Job Stats 2023',
+                                    data: jobPostingsData2023, // Y-axis data for 2023
+                                    borderColor: 'blue',
+                                    borderWidth: 1.5,
+                                    fill: false
+                                },
+                                {
+                                    label: 'Job Stats 2022',
+                                    data: jobPostingsData2022, // Y-axis data for 2022
+                                    borderColor: 'green',
+                                    borderWidth: 1.5,
+                                    fill: false
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true // Start Y-axis at 0
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div class="right-chart">
+        <h3 class='main-title'>Department's Job Postings</h3>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js library -->
+        <div class="halfchart">
+            <div class="dept_container">
+                <div class="dept_contents">
+                    Top 5 Department
+                <canvas id="Dept_stats" width="600" height="300"></canvas> <!-- Canvas for the chart -->
+            </div>
+                <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const top5Dept = JSON.parse('{{ Top5_dept|safe }}');
+                    const deptRecord = JSON.parse('{{ dept_record|safe }}');
+
+                    const ctx2 = document.getElementById('Dept_stats').getContext('2d');
+
+                    const myChart2 = new Chart(ctx2, {
+                        type: 'bar',
+                        data: {
+                            labels: top5Dept,
+                            datasets: [{
+                                label: 'Number of Postings',
+                                data: deptRecord,
+                                backgroundColor: 'rgb(76, 153, 0, 1)',
+                                borderColor: 'rgba(76, 153, 0, 1)',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 {% endblock %}
 
 {% block styles %}
@@ -70,6 +178,31 @@
         }
         .reference a:hover {
             text-decoration: underline;
+        }
+        #jobPostingsChart {
+            width: 50vw; /* 50% of the viewport width */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .left-chart,
+        .right-chart {
+            width: 48%; /* Adjust width as needed */
+        }
+
+        .left-chart .main-title,
+        .right-chart .main-title {
+            margin-bottom: 10px;
+        }
+        .dept_contents{
+            color: #004d99;
+            margin-bottom: 30px;
+            font-size: 20px;
         }
     </style>
 {% endblock %}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Applicant Registration</title>
@@ -14,6 +15,17 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+
+        .my-btn {
+            background-color: #004d99;
+            color: white;
+            border: none;
+            padding: 5px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
         .registration-container {
             background-color: white;
@@ -78,6 +90,9 @@
             </div>
             <input type="submit" value="Submit">
         </form>
+        <div class="navigation">
+            <button type="button" class="my-btn" onclick="history.back()">Go Back</button>
+        </div>
     </div>
 </body>
 </html>
