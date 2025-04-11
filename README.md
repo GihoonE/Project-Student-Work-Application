@@ -2,6 +2,7 @@
 
 
 <img src="screenshots/main_screen.png" alt="Main Page">
+
 ## Technologies Used
 ### Backend Development
 - **Python**
