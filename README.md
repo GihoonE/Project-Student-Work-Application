@@ -1,5 +1,7 @@
 # Project-(CS310)DKU Career Service Center Web Application
 
+
+<img src="screenshots/main_screen.png" alt="Main Page">
 ## Technologies Used
 ### Backend Development
 - **Python**
@@ -23,9 +25,10 @@ This project utilized a full-stack approach, integrating both backend (server-si
 
 ## Duration and Goals
 ### Project Duration
-- Completed over a period of **four weeks**.
+- Completed over a period of **four weeks** (November ~ December 2023).
 
 ### Project Goals
+<img src="screenshots/spreadsheet.png" alt="Spreadsheet" height="500">
 The primary goal was to transform a cumbersome 300-line Google spreadsheet into a user-friendly web application powered by a MySQL database. The DKU Career Service Center initially managed student work information through Google spreadsheets, which presented several challenges:
 1. Users had to open separate browser tabs for each position.
 2. Lack of essential filtering options made searching inefficient.
@@ -39,6 +42,19 @@ To address these issues, the team developed a web platform that enables DKU stud
 - **Access statistical information about job postings.**
 
 This platform significantly improved the efficiency and usability of managing student worker positions at DKU.
+
+### Student Features
+<img src="screenshots/student_main.png" alt="Student Page" height="500">
+<img src="screenshots/student_filter.png" alt="Student Filter Page" height="300">
+<img src="screenshots/student_filter2.png" alt="Student Filter 2 Page" height="500">
+
+#### Faculty Features
+<img src="screenshots/supervisor_main.png" alt="Faculty Page" height="500">
+<p style="display:inline">
+   <img src="screenshots/add_position.png" alt="Add Position Page" width="300">
+   <img src="screenshots/faculty_login.png" alt="Login Page" width="300">
+</p>
+<img src="screenshots/applicant_status.png" alt="Application Status Page" height="300">
 
 ## My Contributions
 
