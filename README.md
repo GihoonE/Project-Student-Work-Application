@@ -44,7 +44,7 @@ To address these issues, the team developed a web platform that enables DKU stud
 
 This platform significantly improved the efficiency and usability of managing student worker positions at DKU.
 
-### Student Features
+#### Student Features
 <img src="screenshots/student_main.png" alt="Student Page" height="500">
 <img src="screenshots/student_filter.png" alt="Student Filter Page" height="300">
 <img src="screenshots/student_filter2.png" alt="Student Filter 2 Page" height="500">
